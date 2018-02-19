@@ -18,7 +18,10 @@ import CoreLocation
     {
         didSet
         {
-            self.animationView?.animatedColor = frameColor
+            self.backgroundView?.frameColor = self.frameColor
+            self.backgroundView?.setNeedsDisplay()
+            
+            self.animationView?.animatedColor = self.frameColor
             self.animationView?.setNeedsDisplay()
         }
     }
@@ -47,6 +50,7 @@ import CoreLocation
         }
     }
   
+    private var backgroundView: UIRadarBackgroundView?
     private var animationView: UIRadarAnimationView?
     private var sectorView: UIRadarSectorView?
     
@@ -103,160 +107,104 @@ import CoreLocation
             let width = fmin(self.frame.size.width, self.frame.size.height)
             let offset_x = fabs(width - self.frame.size.width)/2
             let offset_y = fabs(width - self.frame.size.height)/2
-            let padding = CGFloat(0.5)
-            let radius_size = (width/2) - (padding*2)
-            let circle_width = radius_size/4
-            
-            context.setStrokeColor(self.frameColor.cgColor)
-            
-            // Draw a circle
-            for i in 0 ..< 4
-            {
-                let offset = CGFloat(i) * circle_width
-                
-                context.strokeEllipse(in:
-                    CGRect(
-                    x: padding + offset + offset_x,
-                    y: padding + offset + offset_y,
-                    width: (radius_size - offset)*2,
-                    height: (radius_size - offset)*2))
-            }
-            
-            
-            // draw center marker
-            let center_width = circle_width/8
-            
-            context.move(to: CGPoint(x: width/2 - center_width + offset_x, y: width/2 - center_width + offset_y))
-            context.addLine(to: CGPoint(x: width/2 + center_width + offset_x, y: width/2 + center_width + offset_y))
-            context.closePath()
 
-            context.move(to: CGPoint(x: width/2 - center_width + offset_x, y: width/2 + center_width + offset_y))
-            context.addLine(to: CGPoint(x: width/2 + center_width + offset_x, y: width/2 - center_width + offset_y))
-            context.closePath()
-            
-            
-            // draw line
-            context.move(to: CGPoint(x: padding + offset_x, y: width/2 + offset_y))
-            context.addLine(to: CGPoint(x: padding + (circle_width*3) + offset_x, y: width/2 + offset_y))
-            context.closePath()
-
-            context.move(to: CGPoint(x: width/2 + offset_x, y: padding + offset_y))
-            context.addLine(to: CGPoint(x: width/2 + offset_x, y: padding + (circle_width*3) + offset_y))
-            context.closePath()
-
-            context.move(to: CGPoint(x: width/2 + circle_width + offset_x, y: width/2 + offset_y))
-            context.addLine(to: CGPoint(x: width/2 + (circle_width*4) + offset_x, y: width/2 + offset_y))
-            context.closePath()
-            
-            context.move(to: CGPoint(x: width/2 + offset_x, y: width/2 + circle_width + offset_y))
-            context.addLine(to: CGPoint(x: width/2 + offset_x, y: width/2 + (circle_width*4) + offset_y))
-            context.closePath()
-
-            context.strokePath()
-            
-            
             // draw point
-            let radius_size2 = width/2.1 //(width/2) - (padding*8)
-            self.drawPoints(radiusSize: radius_size2, offsetX: offset_x, offsetY: offset_y, context: context)
-        }
-    }
-    
-    private func drawPoints(radiusSize: CGFloat, offsetX: CGFloat, offsetY: CGFloat, context: CGContext)
-    {
-        let radius = fmax(Double(self.radius), self.rangeDistance)
-        self.range = radius * 1000
-        
-        if let points = self.points, points.count > 0,
-           let location = self.locManager?.location?.coordinate
-        {
-            let scale = CGFloat(self.range) / radiusSize
+            let radius_size = width/2.1 //(width/2) - (padding*8)
+            let radius = fmax(Double(self.radius), self.rangeDistance)
+            self.range = radius * 1000
             
-            var point_size = self.frame.size.width / CGFloat(16)
-            if point_size < 3
+            if let points = self.points, points.count > 0,
+                let location = self.locManager?.location?.coordinate
             {
-                point_size = 3
-            }
-
-            context.setFillColor(self.pointColor.cgColor)
-            
-            for point in points
-            {
-                let azimuth = self.angleFromCoordinate(first: location, second: point)
-                let distanceFromOrigin = LbsUtility.getDistance(location, coord2: point) * Double(1000)
-                let radialDistance = sqrt(pow(0 - self.locManager!.location!.altitude, 2) + pow(distanceFromOrigin, 2))
-               
-                if radialDistance < self.range
+                let scale = CGFloat(self.range) / radius_size
+                
+                var point_size = self.frame.size.width / CGFloat(16)
+                if point_size < 3
                 {
-                    var x = CGFloat(0)
-                    var y = CGFloat(0)
+                    point_size = 3
+                }
+                
+                context.setFillColor(self.pointColor.cgColor)
+                
+                for point in points
+                {
+                    let azimuth = self.angleFromCoordinate(location, second: point)
+                    let distanceFromOrigin = LbsUtility.getDistance(location, coord2: point) * Double(1000)
+                    let radialDistance = sqrt(pow(0 - self.locManager!.location!.altitude, 2) + pow(distanceFromOrigin, 2))
                     
-                    //case1: azimiut is in the 1 quadrant of the radar
-                    if (azimuth >= 0 && azimuth < Double.pi/2)
+                    if radialDistance < self.range
                     {
-                        x = radiusSize + CGFloat(cosf(Float((Double.pi/2) - azimuth))) * (CGFloat(radialDistance) / scale)
-                        y = radiusSize - CGFloat(sinf(Float((Double.pi/2) - azimuth))) * (CGFloat(radialDistance) / scale)
-                    }
-                    else if (azimuth > Double.pi/2 && azimuth < Double.pi)
-                    {
-                        //case2: azimiut is in the 2 quadrant of the radar
-                        x = radiusSize + CGFloat(cosf(Float(azimuth - (Double.pi/2)))) * (CGFloat(radialDistance) / scale)
-                        y = radiusSize + CGFloat(sinf(Float(azimuth - (Double.pi/2)))) * (CGFloat(radialDistance) / scale)
-                    }
-                    else if (azimuth > Double.pi && azimuth < (3 * Double.pi/2))
-                    {
-                        //case3: azimiut is in the 3 quadrant of the radar
-                        x = radiusSize - CGFloat(cosf(Float((3 * Double.pi/2) - azimuth))) * (CGFloat(radialDistance) / scale)
-                        y = radiusSize + CGFloat(sinf(Float((3 * Double.pi/2) - azimuth))) * (CGFloat(radialDistance) / scale)
-                    }
-                    else if (azimuth > (3 * Double.pi/2) && azimuth < (2 * Double.pi))
-                    {
-                        //case4: azimiut is in the 4 quadrant of the radar
-                        x = radiusSize - CGFloat(cosf(Float(azimuth - (3 * Double.pi/2)))) * (CGFloat(radialDistance) / scale)
-                        y = radiusSize - CGFloat(sinf(Float(azimuth - (3 * Double.pi/2)))) * (CGFloat(radialDistance) / scale)
-                    }
-                    else if (azimuth == 0)
-                    {
-                        x = radiusSize
-                        y = radiusSize - CGFloat(radialDistance) / scale
-                    }
-                    else if (azimuth == Double.pi/2)
-                    {
-                        x = radiusSize + CGFloat(radialDistance) / scale
-                        y = radiusSize
-                    }
-                    else if (azimuth == (3 * Double.pi/2))
-                    {
-                        x = radiusSize
-                        y = radiusSize + CGFloat(radialDistance) / scale
-                    }
-                    else if (azimuth == (3 * Double.pi/2))
-                    {
-                        x = radiusSize - CGFloat(radialDistance) / scale
-                        y = radiusSize
-                    }
-                    else
-                    {
-                        //If none of the above match we use the scenario where azimuth is 0
-                        x = radiusSize
-                        y = radiusSize - CGFloat(radialDistance) / scale
-                    }
-                    
-                    //drawing the radar point
-                    if x <= radiusSize * 2 && x >= 0 && y >= 0 && y <= radiusSize * 2
-                    {
-                        context.fillEllipse(in:
-                            CGRect(
-                            x: x + offsetX,
-                            y: y + offsetY,
-                            width: point_size,
-                            height: point_size))
+                        var x = CGFloat(0)
+                        var y = CGFloat(0)
+                        
+                        //case1: azimiut is in the 1 quadrant of the radar
+                        if (azimuth >= 0 && azimuth < Double.pi/2)
+                        {
+                            x = radius_size + CGFloat(cosf(Float((Double.pi/2) - azimuth))) * (CGFloat(radialDistance) / scale)
+                            y = radius_size - CGFloat(sinf(Float((Double.pi/2) - azimuth))) * (CGFloat(radialDistance) / scale)
+                        }
+                        else if (azimuth > Double.pi/2 && azimuth < Double.pi)
+                        {
+                            //case2: azimiut is in the 2 quadrant of the radar
+                            x = radius_size + CGFloat(cosf(Float(azimuth - (Double.pi/2)))) * (CGFloat(radialDistance) / scale)
+                            y = radius_size + CGFloat(sinf(Float(azimuth - (Double.pi/2)))) * (CGFloat(radialDistance) / scale)
+                        }
+                        else if (azimuth > Double.pi && azimuth < (3 * Double.pi/2))
+                        {
+                            //case3: azimiut is in the 3 quadrant of the radar
+                            x = radius_size - CGFloat(cosf(Float((3 * Double.pi/2) - azimuth))) * (CGFloat(radialDistance) / scale)
+                            y = radius_size + CGFloat(sinf(Float((3 * Double.pi/2) - azimuth))) * (CGFloat(radialDistance) / scale)
+                        }
+                        else if (azimuth > (3 * Double.pi/2) && azimuth < (2 * Double.pi))
+                        {
+                            //case4: azimiut is in the 4 quadrant of the radar
+                            x = radius_size - CGFloat(cosf(Float(azimuth - (3 * Double.pi/2)))) * (CGFloat(radialDistance) / scale)
+                            y = radius_size - CGFloat(sinf(Float(azimuth - (3 * Double.pi/2)))) * (CGFloat(radialDistance) / scale)
+                        }
+                        else if (azimuth == 0)
+                        {
+                            x = radius_size
+                            y = radius_size - CGFloat(radialDistance) / scale
+                        }
+                        else if (azimuth == Double.pi/2)
+                        {
+                            x = radius_size + CGFloat(radialDistance) / scale
+                            y = radius_size
+                        }
+                        else if (azimuth == (3 * Double.pi/2))
+                        {
+                            x = radius_size
+                            y = radius_size + CGFloat(radialDistance) / scale
+                        }
+                        else if (azimuth == (3 * Double.pi/2))
+                        {
+                            x = radius_size - CGFloat(radialDistance) / scale
+                            y = radius_size
+                        }
+                        else
+                        {
+                            //If none of the above match we use the scenario where azimuth is 0
+                            x = radius_size
+                            y = radius_size - CGFloat(radialDistance) / scale
+                        }
+                        
+                        //drawing the radar point
+                        if x <= radius_size * 2 && x >= 0 && y >= 0 && y <= radius_size * 2
+                        {
+                            context.fillEllipse(in:
+                                CGRect(
+                                    x: x + offset_x,
+                                    y: y + offset_y,
+                                    width: point_size,
+                                    height: point_size))
+                        }
                     }
                 }
             }
         }
     }
     
-    private func angleFromCoordinate(first: CLLocationCoordinate2D, second: CLLocationCoordinate2D) -> Double
+    private func angleFromCoordinate(_ first: CLLocationCoordinate2D, second: CLLocationCoordinate2D) -> Double
     {
         let longitudinalDifference = second.longitude - first.longitude
         let latitudinalDifference  = second.latitude  - first.latitude
@@ -280,6 +228,10 @@ import CoreLocation
 
     private func initView()
     {
+        self.backgroundView = UIRadarBackgroundView(frame: self.bounds)
+        self.backgroundView?.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
+        self.addSubview(self.backgroundView!)
+        
         self.sectorView = UIRadarSectorView(frame: self.bounds)
         self.sectorView?.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
         self.addSubview(self.sectorView!)
@@ -305,6 +257,7 @@ import CoreLocation
     
     deinit
     {
+        self.backgroundView = nil
         self.animationView = nil
         self.sectorView = nil
         
@@ -337,6 +290,88 @@ extension UIRadarView: CLLocationManagerDelegate
     public func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading)
     {
         self.sectorView?.roatedAngle = Float(newHeading.magneticHeading)
+    }
+}
+
+
+private class UIRadarBackgroundView: UIView
+{
+    public var frameColor: UIColor = UIColor.green
+    
+    public override init(frame: CGRect)
+    {
+        super.init(frame: frame)
+        
+        self.backgroundColor = UIColor.clear
+    }
+    
+    public required init?(coder aDecoder: NSCoder)
+    {
+        super.init(coder: aDecoder)
+        
+        self.backgroundColor = UIColor.clear
+    }
+    
+    public override func draw(_ rect: CGRect)
+    {
+        super.draw(rect)
+        
+        if let context = UIGraphicsGetCurrentContext()
+        {
+            let width = fmin(self.frame.size.width, self.frame.size.height)
+            let offset_x = fabs(width - self.frame.size.width)/2
+            let offset_y = fabs(width - self.frame.size.height)/2
+            let padding = CGFloat(0.5)
+            let radius_size = (width/2) - (padding*2)
+            let circle_width = radius_size/4
+            
+            context.setStrokeColor(self.frameColor.cgColor)
+            
+            // Draw a circle
+            for i in 0 ..< 4
+            {
+                let offset = CGFloat(i) * circle_width
+                
+                context.strokeEllipse(in:
+                        CGRect(
+                            x: padding + offset + offset_x,
+                            y: padding + offset + offset_y,
+                            width: (radius_size - offset)*2,
+                            height: (radius_size - offset)*2))
+            }
+            
+            
+            // draw center marker
+            let center_width = circle_width/8
+            
+            context.move(to: CGPoint(x: width/2 - center_width + offset_x, y: width/2 - center_width + offset_y))
+            context.addLine(to: CGPoint(x: width/2 + center_width + offset_x, y: width/2 + center_width + offset_y))
+            context.closePath()
+            
+            context.move(to: CGPoint(x: width/2 - center_width + offset_x, y: width/2 + center_width + offset_y))
+            context.addLine(to: CGPoint(x: width/2 + center_width + offset_x, y: width/2 - center_width + offset_y))
+            context.closePath()
+            
+            
+            // draw line
+            context.move(to: CGPoint(x: padding + offset_x, y: width/2 + offset_y))
+            context.addLine(to: CGPoint(x: padding + (circle_width*3) + offset_x, y: width/2 + offset_y))
+            context.closePath()
+            
+            context.move(to: CGPoint(x: width/2 + offset_x, y: padding + offset_y))
+            context.addLine(to: CGPoint(x: width/2 + offset_x, y: padding + (circle_width*3) + offset_y))
+            context.closePath()
+            
+            context.move(to: CGPoint(x: width/2 + circle_width + offset_x, y: width/2 + offset_y))
+            context.addLine(to: CGPoint(x: width/2 + (circle_width*4) + offset_x, y: width/2 + offset_y))
+            context.closePath()
+            
+            context.move(to: CGPoint(x: width/2 + offset_x, y: width/2 + circle_width + offset_y))
+            context.addLine(to: CGPoint(x: width/2 + offset_x, y: width/2 + (circle_width*4) + offset_y))
+            context.closePath()
+            
+            context.strokePath()
+        }
     }
 }
 
