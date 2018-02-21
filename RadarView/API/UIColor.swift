@@ -13,25 +13,27 @@ public extension UIColor
 {
     public func getRGBValue(_ red: inout CGFloat, green: inout CGFloat, blue: inout CGFloat, alpha: inout CGFloat)
     {
-        let rgb = self.cgColor.components
-        let size = self.cgColor.numberOfComponents
-        
-        if size == 2
+        if let rgb = self.cgColor.components
         {
-            // white
-            red = (rgb?[0])!
-            green = (rgb?[0])!
-            blue = (rgb?[0])!
+            let size = self.cgColor.numberOfComponents
             
-            alpha = (rgb?[1])!
-        }
-        else
-        {
-            red = (rgb?[0])!
-            green = (rgb?[1])!
-            blue = (rgb?[2])!
-            
-            alpha = (rgb?[3])!
+            if size == 2
+            {
+                // white
+                red = rgb[0]
+                green = rgb[0]
+                blue = rgb[0]
+                
+                alpha = rgb[1]
+            }
+            else
+            {
+                red = rgb[0]
+                green = rgb[1]
+                blue = rgb[2]
+                
+                alpha = rgb[3]
+            }
         }
     }
     
@@ -47,5 +49,19 @@ public extension UIColor
         var g = CGFloat(0)
         var b = CGFloat(0)
         self.getRGBValue(&r, green: &g, blue: &b, alpha: &alpha)
+    }
+    
+    public var hexString: String
+    {
+        get
+        {
+            var r = CGFloat(0)
+            var g = CGFloat(0)
+            var b = CGFloat(0)
+            var alpha = CGFloat(0)
+            self.getRGBValue(&r, green: &g, blue: &b, alpha: &alpha)
+            
+            return String(format: "#%02X%02X%02X%02X", Int(alpha*255), Int(r*255), Int(g*255), Int(b*255))
+        }
     }
 }

@@ -73,7 +73,7 @@ import CoreLocation
         self.initView()
     }
     
-    public func setPoints(_ points: [CLLocationCoordinate2D], autoRadius: Bool)
+    public func setPoints(_ points: [CLLocationCoordinate2D], autoRadius: Bool = true)
     {
         self.rangeDistance = 0
         
@@ -114,7 +114,7 @@ import CoreLocation
             self.range = radius * 1000
             
             if let points = self.points, points.count > 0,
-                let location = self.locManager?.location?.coordinate
+               let location = self.locManager?.location?.coordinate
             {
                 let scale = CGFloat(self.range) / radius_size
                 
@@ -126,11 +126,13 @@ import CoreLocation
                 
                 context.setFillColor(self.pointColor.cgColor)
                 
+                let altitude = self.locManager?.location?.altitude ?? 0
+                
                 for point in points
                 {
                     let azimuth = self.angleFromCoordinate(location, second: point)
                     let distanceFromOrigin = LbsUtility.getDistance(location, coord2: point) * Double(1000)
-                    let radialDistance = sqrt(pow(0 - self.locManager!.location!.altitude, 2) + pow(distanceFromOrigin, 2))
+                    let radialDistance = sqrt(pow(0 - altitude, 2) + pow(distanceFromOrigin, 2))
                     
                     if radialDistance < self.range
                     {
