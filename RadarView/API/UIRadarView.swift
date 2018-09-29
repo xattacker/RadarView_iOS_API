@@ -105,8 +105,8 @@ import CoreLocation
         if let context = UIGraphicsGetCurrentContext()
         {
             let width = fmin(self.frame.size.width, self.frame.size.height)
-            let offset_x = fabs(width - self.frame.size.width)/2
-            let offset_y = fabs(width - self.frame.size.height)/2
+            let offset_x = abs(width - self.frame.size.width)/2
+            let offset_y = abs(width - self.frame.size.height)/2
 
             // draw point
             let radius_size = width/2.1 //(width/2) - (padding*8)
@@ -231,15 +231,15 @@ import CoreLocation
     private func initView()
     {
         self.backgroundView = UIRadarBackgroundView(frame: self.bounds)
-        self.backgroundView?.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
+        self.backgroundView?.autoresizingMask = [UIView.AutoresizingMask.flexibleWidth, UIView.AutoresizingMask.flexibleHeight]
         self.addSubview(self.backgroundView!)
         
         self.sectorView = UIRadarSectorView(frame: self.bounds)
-        self.sectorView?.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
+        self.sectorView?.autoresizingMask = [UIView.AutoresizingMask.flexibleWidth, UIView.AutoresizingMask.flexibleHeight]
         self.addSubview(self.sectorView!)
         
         self.animationView = UIRadarAnimationView(frame: self.bounds)
-        self.animationView?.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
+        self.animationView?.autoresizingMask = [UIView.AutoresizingMask.flexibleWidth, UIView.AutoresizingMask.flexibleHeight]
         self.animationView?.animatedColor = self.frameColor
         self.addSubview(self.animationView!)
         
@@ -321,8 +321,8 @@ private class UIRadarBackgroundView: UIView
         if let context = UIGraphicsGetCurrentContext()
         {
             let width = fmin(self.frame.size.width, self.frame.size.height)
-            let offset_x = fabs(width - self.frame.size.width)/2
-            let offset_y = fabs(width - self.frame.size.height)/2
+            let offset_x = abs(width - self.frame.size.width)/2
+            let offset_y = abs(width - self.frame.size.height)/2
             let padding = CGFloat(0.5)
             let radius_size = (width/2) - (padding*2)
             let circle_width = radius_size/4
@@ -410,28 +410,21 @@ private class UIRadarSectorView: UIView
 
         if let context = UIGraphicsGetCurrentContext()
         {
-            UIGraphicsPushContext(context)
-            
             let width = fmin(self.frame.size.width, self.frame.size.height)
-            let offset_x = fabs(width - self.frame.size.width)/2
-            let offset_y = fabs(width - self.frame.size.height)/2
+            let offset_x = abs(width - self.frame.size.width)/2
+            let offset_y = abs(width - self.frame.size.height)/2
             let new_rect = CGRect(x: offset_x, y: offset_y, width: width, height: width)
-         
-            var r: CGFloat = 0
-            var g: CGFloat = 0
-            var b: CGFloat = 0
-            var a: CGFloat = 0
-            self.sectorColor.getRGBValue(&r, green: &g, blue: &b, alpha: &a)
- 
-            let components : [CGFloat] = [
-                                        r, g, b, (a / 6),
-                                        r, g, b, (a / 4),
-                                        r, g, b, (a / 3),
-                                        r, g, b, (a / 2),
-                                        r, g, b, (a / 1.8),
-                                        r, g, b, (a / 1.5),
-                                        r, g, b, (a / 1.2),
-                                        r, g, b, a]
+            let rgb = self.sectorColor.toRGBValue()
+            
+            let components = [
+                            rgb.red, rgb.green, rgb.blue, (rgb.alpha / 6),
+                            rgb.red, rgb.green, rgb.blue, (rgb.alpha / 4),
+                            rgb.red, rgb.green, rgb.blue, (rgb.alpha / 3),
+                            rgb.red, rgb.green, rgb.blue, (rgb.alpha / 2),
+                            rgb.red, rgb.green, rgb.blue, (rgb.alpha / 1.8),
+                            rgb.red, rgb.green, rgb.blue, (rgb.alpha / 1.5),
+                            rgb.red, rgb.green, rgb.blue, (rgb.alpha / 1.2),
+                            rgb.red, rgb.green, rgb.blue, rgb.alpha]
 
             let space = CGColorSpaceCreateDeviceRGB()
             
@@ -498,8 +491,8 @@ private class UIRadarAnimationView: UIView
             let padding = CGFloat(0.5)
             let radiusSize = (width/2) - (padding*2)
             let circle_width = radiusSize / CGFloat(self.aliquots)
-            let offset_x = fabs(width - self.frame.size.width)/2
-            let offset_y = fabs(width - self.frame.size.height)/2
+            let offset_x = abs(width - self.frame.size.width)/2
+            let offset_y = abs(width - self.frame.size.height)/2
             
             if self.aliquotsCount < -(self.aliquots/2)
             {
@@ -540,7 +533,7 @@ private class UIRadarAnimationView: UIView
                             repeats: true)
             
             // avoid touch event to block timer callback
-            RunLoop.current.add(self.timer!, forMode: RunLoopMode.commonModes)
+            RunLoop.current.add(self.timer!, forMode: RunLoop.Mode.common)
         }
     }
     
