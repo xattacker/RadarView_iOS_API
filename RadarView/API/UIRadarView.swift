@@ -281,6 +281,11 @@ extension UIRadarView: CLLocationManagerDelegate
         {
             self.locManager?.startUpdatingHeading()
             self.locManager?.startUpdatingLocation()
+            
+            if let points = self.points
+            {
+                self.setPoints(points)
+            }
         }
     }
     
