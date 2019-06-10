@@ -9,7 +9,7 @@
 import UIKit
 
 
-public extension UIColor
+extension UIColor
 {
     public func toRGBValue() -> (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat)
     {
