@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 
 
-@IBDesignable public class UIRadarView: UIView
+@IBDesignable public final class UIRadarView: UIView
 {
     @IBInspectable public var radius: Float = 1
     
