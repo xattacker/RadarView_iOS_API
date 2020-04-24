@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name = 'RadarView/iOS'
+  s.name = 'RadarView_iOS'
   s.version = '1.0.0'
   s.license = 'BSD'
   s.summary = 'RadarView iOS Swift API'
