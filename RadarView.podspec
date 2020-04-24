@@ -11,5 +11,5 @@ Pod::Spec.new do |s|
   s.swift_version = '5.0'
 
   s.requires_arc = true
-  s.source_files = 'RadarView_iOS_API/Sources/*.swift'
+  s.source_files = 'RadarView/Sources/*.swift'
 end
