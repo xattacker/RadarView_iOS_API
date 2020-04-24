@@ -19,13 +19,13 @@ pod 'RadarView_iOS'
 ```
 import RadarView_iOS
 
- var radarView: UIRadarView!
+var radarView: UIRadarView!
 
- var points = [CLLocationCoordinate2D]()
- points.append(CLLocationCoordinate2D(latitude: 22.662705, longitude: 120.250990))
- points.append(CLLocationCoordinate2D(latitude: 22.635442, longitude: 120.355306))
- points.append(CLLocationCoordinate2D(latitude: 22.705310, longitude: 120.353300))
- radarView.setPoints(points, autoRadius: true)
+var points = [CLLocationCoordinate2D]()
+points.append(CLLocationCoordinate2D(latitude: 22.662705, longitude: 120.250990))
+points.append(CLLocationCoordinate2D(latitude: 22.635442, longitude: 120.355306))
+points.append(CLLocationCoordinate2D(latitude: 22.705310, longitude: 120.353300))
+radarView.setPoints(points, autoRadius: true)
 
 ```
 
