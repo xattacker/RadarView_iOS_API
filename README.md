@@ -1,5 +1,5 @@
 # RadarView_iOS_API
-a iOS swift Radar UI View component 
+an iOS swift Radar UI View component 
 
 ![avatar](/rm_res/record.gif)<br><br>
 
