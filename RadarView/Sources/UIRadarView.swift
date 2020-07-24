@@ -527,15 +527,14 @@ private class UIRadarAnimationView: UIView
         
         if self.aliquots > 0
         {
-            // avoid retain cycle
             self.timer = Timer.scheduledTimer(
-                            WAVE_UPDATE_FREQUENCY / DEFAULT_TIME_ALIQUOTS,
-                            fire:
-                            {
-                                [weak self] in
-                                self?.setNeedsDisplay()
-                            },
-                            repeats: true)
+                                withTimeInterval: WAVE_UPDATE_FREQUENCY / DEFAULT_TIME_ALIQUOTS,
+                                repeats: true,
+                                block: {
+                                    [weak self]
+                                    (timer: Timer) in
+                                    self?.setNeedsDisplay()
+                                })
             
             // avoid touch event to block timer callback
             RunLoop.current.add(self.timer!, forMode: RunLoop.Mode.common)

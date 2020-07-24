@@ -14,7 +14,6 @@
 		65A7E9A92038882C001CB20A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65A7E9A72038882C001CB20A /* LaunchScreen.storyboard */; };
 		68A40D072452C5D50032147E /* LbsUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A40D032452C5D50032147E /* LbsUtility.swift */; };
 		68A40D082452C5D50032147E /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A40D042452C5D50032147E /* UIColor.swift */; };
-		68A40D092452C5D50032147E /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A40D052452C5D50032147E /* Timer.swift */; };
 		68A40D0A2452C5D50032147E /* UIRadarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A40D062452C5D50032147E /* UIRadarView.swift */; };
 /* End PBXBuildFile section */
 
@@ -28,7 +27,6 @@
 		65A7E9AA2038882C001CB20A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		68A40D032452C5D50032147E /* LbsUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LbsUtility.swift; sourceTree = "<group>"; };
 		68A40D042452C5D50032147E /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
-		68A40D052452C5D50032147E /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		68A40D062452C5D50032147E /* UIRadarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIRadarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -78,7 +76,6 @@
 			children = (
 				68A40D032452C5D50032147E /* LbsUtility.swift */,
 				68A40D042452C5D50032147E /* UIColor.swift */,
-				68A40D052452C5D50032147E /* Timer.swift */,
 				68A40D062452C5D50032147E /* UIRadarView.swift */,
 			);
 			path = Sources;
@@ -160,7 +157,6 @@
 				68A40D072452C5D50032147E /* LbsUtility.swift in Sources */,
 				68A40D082452C5D50032147E /* UIColor.swift in Sources */,
 				65A7E9A12038882C001CB20A /* ViewController.swift in Sources */,
-				68A40D092452C5D50032147E /* Timer.swift in Sources */,
 				65A7E99F2038882C001CB20A /* AppDelegate.swift in Sources */,
 				68A40D0A2452C5D50032147E /* UIRadarView.swift in Sources */,
 			);
@@ -236,7 +232,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -288,7 +284,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
