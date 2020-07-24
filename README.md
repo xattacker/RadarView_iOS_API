@@ -1,6 +1,9 @@
 # RadarView_iOS_API
 an iOS swift Radar UI View component 
 
+Android version API: https://github.com/xattacker/RadarView_Android_API<br>
+
+
 ![avatar](/rm_res/record.gif)<br><br>
 
 
