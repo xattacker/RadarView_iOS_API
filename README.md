@@ -3,7 +3,7 @@ an iOS swift Radar UI View component
 
 <br>
 Development Target: iOS 10
-<br>
+<br><br>
 
 
 ![avatar](/rm_res/record.gif)<br><br>
