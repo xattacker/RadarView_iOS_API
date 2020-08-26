@@ -14,6 +14,14 @@ RadarView can be added to your project using CocoaPods 0.36 or later by adding t
 ```
 pod 'RadarView_iOS'
 ```
+### Swift Package Manager
+To add RadarView to a [Swift Package Manager](https://swift.org/package-manager/) based project, add:
+
+```swift
+.package(url: "https://github.com/xattacker/RadarView_iOS_API.git", .upToNextMajor(from: "1.0.1")),
+```
+to your `Package.swift` files `dependencies` array.
+
 
 
 ### How to use:
