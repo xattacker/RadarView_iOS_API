@@ -21,8 +21,7 @@ To add RadarView to a [Swift Package Manager](https://swift.org/package-manager/
 .package(url: "https://github.com/xattacker/RadarView_iOS_API.git", .upToNextMajor(from: "1.0.1")),
 ```
 to your `Package.swift` files `dependencies` array.
-
-
+<br><br>
 
 ### How to use:
 
