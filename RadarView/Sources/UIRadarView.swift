@@ -80,11 +80,9 @@ import CoreLocation
         if let location = self.locManager?.location?.coordinate,
            CLLocationCoordinate2DIsValid(location) && autoRadius
         {
-            var distance: Double = 0
-            
             for point in points
             {
-                distance = LbsUtility.getDistance(location, coord2: point)
+                let distance = LbsUtility.getDistance(location, coord2: point)
                 if self.rangeDistance < distance
                 {
                     self.rangeDistance = distance
@@ -141,72 +139,74 @@ import CoreLocation
             let distanceFromOrigin = LbsUtility.getDistance(location, coord2: point) * Double(1000)
             let radialDistance = sqrt(pow(0 - altitude, 2) + pow(distanceFromOrigin, 2))
             
-            if radialDistance < self.range
+            if radialDistance > self.range
             {
-                var x = CGFloat(0)
-                var y = CGFloat(0)
-                
-                //case1: azimiut is in the 1 quadrant of the radar
-                if azimuth >= 0 && azimuth < Double.pi/2
-                {
-                    x = radius_size + CGFloat(cosf(Float((Double.pi/2) - azimuth))) * (CGFloat(radialDistance) / scale)
-                    y = radius_size - CGFloat(sinf(Float((Double.pi/2) - azimuth))) * (CGFloat(radialDistance) / scale)
-                }
-                else if azimuth > Double.pi/2 && azimuth < Double.pi
-                {
-                    //case2: azimiut is in the 2 quadrant of the radar
-                    x = radius_size + CGFloat(cosf(Float(azimuth - (Double.pi/2)))) * (CGFloat(radialDistance) / scale)
-                    y = radius_size + CGFloat(sinf(Float(azimuth - (Double.pi/2)))) * (CGFloat(radialDistance) / scale)
-                }
-                else if azimuth > Double.pi && azimuth < (3 * Double.pi/2)
-                {
-                    //case3: azimiut is in the 3 quadrant of the radar
-                    x = radius_size - CGFloat(cosf(Float((3 * Double.pi/2) - azimuth))) * (CGFloat(radialDistance) / scale)
-                    y = radius_size + CGFloat(sinf(Float((3 * Double.pi/2) - azimuth))) * (CGFloat(radialDistance) / scale)
-                }
-                else if azimuth > (3 * Double.pi/2) && azimuth < (2 * Double.pi)
-                {
-                    //case4: azimiut is in the 4 quadrant of the radar
-                    x = radius_size - CGFloat(cosf(Float(azimuth - (3 * Double.pi/2)))) * (CGFloat(radialDistance) / scale)
-                    y = radius_size - CGFloat(sinf(Float(azimuth - (3 * Double.pi/2)))) * (CGFloat(radialDistance) / scale)
-                }
-                else if azimuth == 0
-                {
-                    x = radius_size
-                    y = radius_size - CGFloat(radialDistance) / scale
-                }
-                else if azimuth == Double.pi/2
-                {
-                    x = radius_size + CGFloat(radialDistance) / scale
-                    y = radius_size
-                }
-                else if azimuth == (3 * Double.pi/2)
-                {
-                    x = radius_size
-                    y = radius_size + CGFloat(radialDistance) / scale
-                }
-                else if azimuth == (3 * Double.pi/2)
-                {
-                    x = radius_size - CGFloat(radialDistance) / scale
-                    y = radius_size
-                }
-                else
-                {
-                    //If none of the above match we use the scenario where azimuth is 0
-                    x = radius_size
-                    y = radius_size - CGFloat(radialDistance) / scale
-                }
-                
-                //drawing the radar point
-                if x <= radius_size * 2 && x >= 0 && y >= 0 && y <= radius_size * 2
-                {
-                    context.fillEllipse(in:
+                continue
+            }
+            
+            var x = CGFloat(0)
+            var y = CGFloat(0)
+            
+            //case1: azimiut is in the 1 quadrant of the radar
+            if azimuth >= 0 && azimuth < Double.pi/2
+            {
+                x = radius_size + CGFloat(cosf(Float((Double.pi/2) - azimuth))) * (CGFloat(radialDistance) / scale)
+                y = radius_size - CGFloat(sinf(Float((Double.pi/2) - azimuth))) * (CGFloat(radialDistance) / scale)
+            }
+            else if azimuth > Double.pi/2 && azimuth < Double.pi
+            {
+                //case2: azimiut is in the 2 quadrant of the radar
+                x = radius_size + CGFloat(cosf(Float(azimuth - (Double.pi/2)))) * (CGFloat(radialDistance) / scale)
+                y = radius_size + CGFloat(sinf(Float(azimuth - (Double.pi/2)))) * (CGFloat(radialDistance) / scale)
+            }
+            else if azimuth > Double.pi && azimuth < (3 * Double.pi/2)
+            {
+                //case3: azimiut is in the 3 quadrant of the radar
+                x = radius_size - CGFloat(cosf(Float((3 * Double.pi/2) - azimuth))) * (CGFloat(radialDistance) / scale)
+                y = radius_size + CGFloat(sinf(Float((3 * Double.pi/2) - azimuth))) * (CGFloat(radialDistance) / scale)
+            }
+            else if azimuth > (3 * Double.pi/2) && azimuth < (2 * Double.pi)
+            {
+                //case4: azimiut is in the 4 quadrant of the radar
+                x = radius_size - CGFloat(cosf(Float(azimuth - (3 * Double.pi/2)))) * (CGFloat(radialDistance) / scale)
+                y = radius_size - CGFloat(sinf(Float(azimuth - (3 * Double.pi/2)))) * (CGFloat(radialDistance) / scale)
+            }
+            else if azimuth == 0
+            {
+                x = radius_size
+                y = radius_size - CGFloat(radialDistance) / scale
+            }
+            else if azimuth == Double.pi/2
+            {
+                x = radius_size + CGFloat(radialDistance) / scale
+                y = radius_size
+            }
+            else if azimuth == (3 * Double.pi/2)
+            {
+                x = radius_size
+                y = radius_size + CGFloat(radialDistance) / scale
+            }
+            else if azimuth == (3 * Double.pi/2)
+            {
+                x = radius_size - CGFloat(radialDistance) / scale
+                y = radius_size
+            }
+            else
+            {
+                //If none of the above match we use the scenario where azimuth is 0
+                x = radius_size
+                y = radius_size - CGFloat(radialDistance) / scale
+            }
+            
+            //drawing the radar point
+            if x <= radius_size * 2 && x >= 0 && y >= 0 && y <= radius_size * 2
+            {
+                context.fillEllipse(in:
                         CGRect(
-                            x: x + offset_x,
-                            y: y + offset_y,
-                            width: point_size,
-                            height: point_size))
-                }
+                        x: x + offset_x,
+                        y: y + offset_y,
+                        width: point_size,
+                        height: point_size))
             }
         }
     }
@@ -445,24 +445,27 @@ private class UIRadarSectorView: UIView
 
         let space = CGColorSpaceCreateDeviceRGB()
         
-        if let gradient = CGGradient(colorSpace: space, colorComponents: components, locations: nil, count: 8)
+        guard let gradient = CGGradient(colorSpace: space, colorComponents: components, locations: nil, count: 8) else
         {
-            context.saveGState()
-            context.addEllipse(in: new_rect)
-            context.clip()
-            
-            let start_point = CGPoint(x: new_rect.midX, y: new_rect.minY)
-            var end_point = CGPoint(x: new_rect.midX, y: new_rect.maxY)
-            end_point.y /= 2.0
-            
-            context.drawRadialGradient(
-                gradient,
-                startCenter: start_point,
-                startRadius: width / 4.2,
-                endCenter: end_point,
-                endRadius: 1,
-                options: CGGradientDrawingOptions.drawsBeforeStartLocation)
+            return
         }
+        
+        
+        context.saveGState()
+        context.addEllipse(in: new_rect)
+        context.clip()
+        
+        let start_point = CGPoint(x: new_rect.midX, y: new_rect.minY)
+        var end_point = CGPoint(x: new_rect.midX, y: new_rect.maxY)
+        end_point.y /= 2.0
+        
+        context.drawRadialGradient(
+            gradient,
+            startCenter: start_point,
+            startRadius: width / 4.2,
+            endCenter: end_point,
+            endRadius: 1,
+            options: CGGradientDrawingOptions.drawsBeforeStartLocation)
     }
 }
 
