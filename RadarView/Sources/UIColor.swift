@@ -11,7 +11,7 @@ import UIKit
 
 extension UIColor
 {
-    public func toRGBValue() -> (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat)
+    public var rgb: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat)
     {
         var r: CGFloat = 0
         var g: CGFloat = 0
@@ -46,7 +46,7 @@ extension UIColor
     
     public var alpha: CGFloat
     {
-        let rgb = self.toRGBValue()
+        let rgb = self.rgb
         return rgb.alpha
     }
 }
