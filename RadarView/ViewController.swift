@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  RadarView
+//  RadarView_iOS
 //
 //  Created by xattacker on 2018/2/17.
 //  Copyright © 2018年 xattacker. All rights reserved.
