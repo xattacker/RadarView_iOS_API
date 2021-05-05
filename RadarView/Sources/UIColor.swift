@@ -11,7 +11,7 @@ import UIKit
 
 extension UIColor
 {
-    public var rgb: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat)
+    internal var rgb: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat)
     {
         var r: CGFloat = 0
         var g: CGFloat = 0
@@ -44,7 +44,7 @@ extension UIColor
         return (r, g, b, a)
     }
     
-    public var alpha: CGFloat
+    internal var alpha: CGFloat
     {
         let rgb = self.rgb
         return rgb.alpha

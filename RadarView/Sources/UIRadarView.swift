@@ -77,12 +77,12 @@ import CoreLocation
     {
         self.rangeDistance = 0
         
-        if let location = self.locManager?.location?.coordinate,
-           CLLocationCoordinate2DIsValid(location) && autoRadius
+        if let location = self.locManager?.location,
+           CLLocationCoordinate2DIsValid(location.coordinate) && autoRadius
         {
             for point in points
             {
-                let distance = LbsUtility.getDistance(location, coord2: point)
+                let distance = location.distance(from: CLLocation(latitude: point.latitude, longitude: point.longitude))
                 if self.rangeDistance < distance
                 {
                     self.rangeDistance = distance
@@ -101,7 +101,7 @@ import CoreLocation
         super.draw(rect)
 
         guard let points = self.points, points.count > 0,
-              let location = self.locManager?.location?.coordinate else
+              let location = self.locManager?.location, CLLocationCoordinate2DIsValid(location.coordinate) else
         {
             return
         }
@@ -135,8 +135,8 @@ import CoreLocation
         
         for point in points
         {
-            let azimuth = self.angleFromCoordinate(location, second: point)
-            let distanceFromOrigin = LbsUtility.getDistance(location, coord2: point) * Double(1000)
+            let azimuth = self.angleFromCoordinate(location.coordinate, second: point)
+            let distanceFromOrigin = location.distance(from: CLLocation(latitude: point.latitude, longitude: point.longitude)) * Double(1000)
             let radialDistance = sqrt(pow(0 - altitude, 2) + pow(distanceFromOrigin, 2))
             
             if radialDistance > self.range

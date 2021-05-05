@@ -12,7 +12,6 @@
 		65A7E9A42038882C001CB20A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65A7E9A22038882C001CB20A /* Main.storyboard */; };
 		65A7E9A62038882C001CB20A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65A7E9A52038882C001CB20A /* Assets.xcassets */; };
 		65A7E9A92038882C001CB20A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65A7E9A72038882C001CB20A /* LaunchScreen.storyboard */; };
-		68A40D072452C5D50032147E /* LbsUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A40D032452C5D50032147E /* LbsUtility.swift */; };
 		68A40D082452C5D50032147E /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A40D042452C5D50032147E /* UIColor.swift */; };
 		68A40D0A2452C5D50032147E /* UIRadarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A40D062452C5D50032147E /* UIRadarView.swift */; };
 /* End PBXBuildFile section */
@@ -25,7 +24,6 @@
 		65A7E9A52038882C001CB20A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		65A7E9A82038882C001CB20A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		65A7E9AA2038882C001CB20A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		68A40D032452C5D50032147E /* LbsUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LbsUtility.swift; sourceTree = "<group>"; };
 		68A40D042452C5D50032147E /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		68A40D062452C5D50032147E /* UIRadarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIRadarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -74,7 +72,6 @@
 		68A40D022452C5D50032147E /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				68A40D032452C5D50032147E /* LbsUtility.swift */,
 				68A40D042452C5D50032147E /* UIColor.swift */,
 				68A40D062452C5D50032147E /* UIRadarView.swift */,
 			);
@@ -154,7 +151,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68A40D072452C5D50032147E /* LbsUtility.swift in Sources */,
 				68A40D082452C5D50032147E /* UIColor.swift in Sources */,
 				65A7E9A12038882C001CB20A /* ViewController.swift in Sources */,
 				65A7E99F2038882C001CB20A /* AppDelegate.swift in Sources */,
@@ -298,8 +294,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				INFOPLIST_FILE = RadarView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xattacker.RadarView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -312,8 +310,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				INFOPLIST_FILE = RadarView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xattacker.RadarView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

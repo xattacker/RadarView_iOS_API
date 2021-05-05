@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'RadarView_iOS'
-  s.version = '1.0.0'
+  s.version = '1.0.1'
   s.license = 'BSD'
   s.summary = 'RadarView iOS Swift API'
   s.homepage = 'https://github.com/xattacker/RadarView_iOS_API'
