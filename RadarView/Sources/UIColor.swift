@@ -43,10 +43,4 @@ extension UIColor
         
         return (r, g, b, a)
     }
-    
-    internal var alpha: CGFloat
-    {
-        let rgb = self.rgb
-        return rgb.alpha
-    }
 }

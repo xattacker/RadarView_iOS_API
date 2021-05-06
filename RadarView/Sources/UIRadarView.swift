@@ -306,7 +306,7 @@ extension UIRadarView: CLLocationManagerDelegate
 }
 
 
-private class UIRadarBackgroundView: UIView
+fileprivate class UIRadarBackgroundView: UIView
 {
     public var frameColor: UIColor = UIColor.green
     
@@ -391,7 +391,7 @@ private class UIRadarBackgroundView: UIView
 }
 
 
-private class UIRadarSectorView: UIView
+fileprivate class UIRadarSectorView: UIView
 {
     public var sectorColor: UIColor = UIColor(white: CGFloat(200.0/255.0), alpha: CGFloat(0.8))
     
@@ -470,17 +470,18 @@ private class UIRadarSectorView: UIView
 }
 
 
-private class UIRadarAnimationView: UIView
+fileprivate class UIRadarAnimationView: UIView
 {
     private let DEFAULT_TIME_ALIQUOTS: TimeInterval = 10
     private let DEFAULT_ALIQUOTS: TimeInterval      = 10
     private let WAVE_UPDATE_FREQUENCY: TimeInterval = 1
     
+    public var animatedColor: UIColor = UIColor.green
+    
     private var aliquotsCount: Int = 0
     private var aliquots: Int = 10  /* 動畫等份 */
     private var timer: Timer?
-    public var animatedColor: UIColor = UIColor.green
-    
+
     public override init(frame: CGRect)
     {
         super.init(frame: frame)
