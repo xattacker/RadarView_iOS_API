@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 
+
 class ViewController: UIViewController
 {
     @IBOutlet private var radarView: UIRadarView!
@@ -25,4 +26,3 @@ class ViewController: UIViewController
         self.radarView.setPoints(points, autoRadius: true)
     }
 }
-

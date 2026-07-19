@@ -10,6 +10,7 @@ import UIKit
 import CoreLocation
 
 
+@MainActor
 @IBDesignable public final class UIRadarView: UIView
 {
     @IBInspectable public var radius: Float = 1
@@ -268,17 +269,19 @@ import CoreLocation
         self.animationView = nil
         self.sectorView = nil
         
-        self.locManager?.stopUpdatingHeading()
-        self.locManager?.stopUpdatingLocation()
-        self.locManager?.delegate = nil
-        self.locManager = nil
-        
-        self.points = nil
+        Task {
+            @MainActor
+            [weak self] in
+            self?.locManager?.stopUpdatingHeading()
+            self?.locManager?.stopUpdatingLocation()
+            self?.locManager?.delegate = nil
+            self?.locManager = nil
+        }
     }
 }
 
 
-extension UIRadarView: CLLocationManagerDelegate
+extension UIRadarView: @MainActor CLLocationManagerDelegate
 {
     public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus)
     {
