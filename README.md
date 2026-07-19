@@ -1,7 +1,7 @@
 # RadarView_iOS_API
 an iOS swift Radar UI View component 
 <br><br>
-Development Target: iOS 10
+Development Target: iOS 13
 <br><br><br>
 
 ![avatar](/rm_res/record.gif)<br><br>
